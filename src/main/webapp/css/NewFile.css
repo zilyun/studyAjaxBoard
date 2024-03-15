@@ -32,7 +32,7 @@ legend {
 	font-weight: bold
 }
 
-#id,
+/*#id,*/ /* id width: 100% */
 #post1 {
 	width: 70%
 }

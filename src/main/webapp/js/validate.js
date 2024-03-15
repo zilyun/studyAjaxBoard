@@ -123,7 +123,7 @@ let idcheck_value = ''; // id 중복 검사 시 값
 
 	}); // submit() end
 
-	// ID 중복검사 부분
+/*	// ID 중복검사 부분
 	//$('#myform > fieldset > div:nth-child(1) > input[type=button]:nth-child(3)').on('click', function() {
 	$('#idcheck').on('click', function() {
 		const id = $('#id');
@@ -144,7 +144,7 @@ let idcheck_value = ''; // id 중복 검사 시 값
 				id.val('').focus();
 			}
 		}
-	}); // $("#idcheck").click()
+	}); // $("#idcheck").click()*/
  
   	// 우편검색 버튼 클릭
   	$("#postcode").click(function () {
