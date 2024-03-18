@@ -18,6 +18,7 @@ drop sequence com_seq;
 create sequence com_seq;
 
 delete from comm;
+delete from board;
 
 select * from comm;
 
