@@ -83,7 +83,7 @@ body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:11%}
 								&nbsp;
 							</c:if>
 							
-							<a href="BoardDetailAction.bo?num=${b.board_num}">
+							<a href="BoardDetail.bo?num=${b.board_num}">
 								<c:if test="${b.board_subject.length()>=20}">
 									<c:out value="${b.board_subject.substring(0,20)}..." />
 								</c:if>
