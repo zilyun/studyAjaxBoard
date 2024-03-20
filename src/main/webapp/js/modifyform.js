@@ -59,7 +59,7 @@ $(document).ready(function() {
 	});
 	
 	// remove 이미지를 클릭하면 파일명을 ''로 변경하고 remove 이미지를 보이지 않게 합니다. 
-	$("remove").click(function() {
+	$(".remove").click(function() {
 		$('#filevalue').text('');
 		$(this).css('display', 'none');
 	});

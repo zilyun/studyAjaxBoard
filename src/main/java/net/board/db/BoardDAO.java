@@ -173,4 +173,51 @@ public class BoardDAO {
 		}
 		return board;
 	} // getDetail() 메서드 end
-}
+
+	// 글쓴이인지 확인 - 비밀번호로 확인합니다.
+	public boolean isBoardWriter(int num, String pass) {
+		boolean result = false;
+		String board_sql = "select BOARD_PASS from board where BOARD_NUM=?";
+		try (Connection con = ds.getConnection();
+			 PreparedStatement pstmt = con.prepareStatement(board_sql);) {
+			 pstmt.setInt(1, num);
+			 
+			 try (ResultSet rs = pstmt.executeQuery()) {
+				 if (rs.next()) {
+					 if (pass.equals(rs.getString("BOARD_PASS"))) {
+						 result = true;
+					 }
+				 }
+			 } catch (SQLException e) {
+				 e.printStackTrace();
+			 }
+			 
+		} catch (Exception ex) {
+			System.out.println("isBoardWriter() 에러 : " + ex);
+		}
+		return result;
+	} // isBoardWriter end
+
+	public boolean boardModify(BoardBean modifyboard) {
+		String sql = "update board "
+				   + "set	 BOARD_SUBJECT=?, BoARD_CONTENT=?, BOARD_FILE=? "
+				   + "where  BOARd_NUM=? ";
+		
+		try (Connection con = ds.getConnection();
+			 PreparedStatement pstmt = con.prepareStatement(sql);) {
+			 pstmt.setString(1, modifyboard.getBoard_subject());
+			 pstmt.setString(2, modifyboard.getBoard_content());
+			 pstmt.setString(3, modifyboard.getBoard_file());
+			 pstmt.setInt(4, modifyboard.getBoard_num());
+			 int result = pstmt.executeUpdate();
+			 if (result == 1) {
+				 System.out.println("성공 업데이트");
+				 return true;
+			 }
+		} catch (Exception ex) {
+			System.out.println("boardModify() 에러: " + ex);
+		}
+		return false;
+	} // boardModify() 메서드 end
+	
+} // class end 

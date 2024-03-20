@@ -23,12 +23,12 @@ h1 {font-size: 1.5rem; text-align: center; color:#1a92b9}
 			<h1>MVC 게시판 - 수정</h1>
 			<div class="form-group">
 				<label for="board_name">글쓴이</label>
-				<input type="text" class="form-control" 
+				<input type="text" class="form-control" name="board_name" id="board_name"
 						value="${boarddata.board_name}" readOnly>
 			</div>
 			
 			<div class="form-group">
-				<label for="board_subect">제목</label>
+				<label for="board_subject">제목</label>
 				<textarea name="board_subject" id="board_subject" rows="1" 
 						  class="form-control" maxlength="100">${boarddata.board_subject}</textarea>
 			</div>
