@@ -51,4 +51,5 @@ public class Member {
 	public void setMemberfile(String memberfile) {
 		this.memberfile = memberfile;
 	}
+	
 }

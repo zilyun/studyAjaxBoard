@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -116,9 +118,139 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return m;
 	}
 
+	public int update(Member m) {
+		int result = 0;
+		String sql = "update member set name = ?, age = ?, gender = ?, email = ?, memberfile = ? "
+				   + "where id = ?";
+		try (Connection con = ds.getConnection(); 
+			 PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, m.getName());
+			pstmt.setInt(2, m.getAge());
+			pstmt.setString(3, m.getGender());
+			pstmt.setString(4, m.getEmail());
+			pstmt.setString(5, m.getMemberfile());
+			pstmt.setString(6, m.getId());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// 글의 갯수 구하기
+	public int getListCount() {
+		String sql = "select count(*) from member where id != 'admin'";
+		int x = 0;
+		try (Connection con = ds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					x = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("getListCount() 에러: " + ex);
+		}
+		return x;
+	} // getListCount() end
+	
+	public List<Member> getList(int page, int limit) {
+		List<Member> list = new ArrayList<Member>();
+		String sql = " select * " 
+				   + " from (select b.*, rownum rnum "
+				   + "		from (select * from member "
+				   + " 			  where id != 'admin' "	
+				   + "			  order by id) b " 
+				   + "		where rownum <= ?) " 
+				   + " where rnum>=? and rnum<=? ";
+		try (Connection con = ds.getConnection(); 
+			PreparedStatement pstmt = con.prepareStatement(sql);) {
+													// 한 페이지당 10개씩 목록인 경우 1페이지, 2페이지, 3페이지, 4페이지 ...
+			int startrow = (page - 1) * limit + 1;  // 읽기 시작할 row 번호(01 11 21 31 ...)
+			int endrow = startrow + limit - 1; 		// 읽을 마지막 row 번호(10 20 30 40 ...)
+			pstmt.setInt(1, endrow);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, endrow);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					Member m = new Member();
+					m.setId(rs.getString("id"));
+					m.setPassword(rs.getString(2));
+					m.setName(rs.getString(3));
+					m.setAge(rs.getInt(4));
+					list.add(m); // 값을 담은 객체를 리스트에 저장힙니다.
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	public int getListCount(String field, String value) {
+		int x = 0;
+		String sql = "select count(*) from member "
+				   + "where id != 'admin' "
+				   + "and " + field + " like ?"; // and name like '%홍길동%'
+		try (Connection con = ds.getConnection(); 
+			PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, "%"+value+"%"); // '%a%'
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					x = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("getListCount() 에러: " + ex);
+		}
+		return x;
+	} // getListCount() end
+
+	public List<Member> getList(String field, String value, int page, int limit) {
+		List<Member> list = new ArrayList<Member>();
+		String sql = " select * " 
+				   + " from (select b.*, rownum rnum "
+				   + "		from (select * from member "
+				   + " 			  where id != 'admin' "	
+				   + "            and " + field + " like ?"
+				   + "			  order by id) b " 
+				   + "		where rownum <= ?) " 
+				   + " where rnum>=? and rnum<=? ";
+		try (Connection con = ds.getConnection(); 
+			PreparedStatement pstmt = con.prepareStatement(sql);) {
+													// 한 페이지당 10개씩 목록인 경우 1페이지, 2페이지, 3페이지, 4페이지 ...
+			int startrow = (page - 1) * limit + 1;  // 읽기 시작할 row 번호(01 11 21 31 ...)
+			int endrow = startrow + limit - 1; 		// 읽을 마지막 row 번호(10 20 30 40 ...)
+			pstmt.setString(1, value);
+			pstmt.setInt(2, endrow);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, endrow);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					Member m = new Member();
+					m.setId(rs.getString("id"));
+					m.setPassword(rs.getString(2));
+					m.setName(rs.getString(3));
+					m.setAge(rs.getInt(4));
+					list.add(m); // 값을 담은 객체를 리스트에 저장힙니다.
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return list;
+	}
 
 } // class end

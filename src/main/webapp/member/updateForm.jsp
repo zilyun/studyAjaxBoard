@@ -37,9 +37,8 @@ input[type=file] {
 			<input type="radio" name="gender" value="여"><span>여자</span>
 		</div>		
 	<b>이메일 주소</b>
-		<input type="text" name="email" value="${memberinfo.email}" maxlength="2" 
+		<input type="text" name="email" value="${memberinfo.email}" 
 				placeholder="Enter email" required><span id="email_message"></span>
-	
 	<b>프로필 사진</b>			
 	<label>
 		<img src="${pageContext.request.contextPath}/image/attach.png" width="10px">
@@ -49,7 +48,7 @@ input[type=file] {
 				<c:set var='src' value='image/profile.png' />
 			</c:if>
 			<c:if test="${!empty memberinfo.memberfile}">
-				<c:set var='src' value='${"memberupload/"}${memberinfo.memberfile}'/>
+				<c:set var='src' value='${"memberupload/"}${memberinfo.memberfile}'/> <%-- 나란히 쓰고 중간에 / --%>
 				<input type="hidden" name="check" value="${memberinfo.memberfile}"> 
 												<%-- 파일이 있는데 변경하지 않는 경우 그대로 유지 --%>
 			</c:if>

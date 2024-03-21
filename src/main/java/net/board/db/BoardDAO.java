@@ -57,12 +57,16 @@ public class BoardDAO {
 		// 조건절에 맞는 rnum의 범위 만큼 가져오는 쿼리문입니다.
 
 		String board_list_sql = "select * " + " from (select rownum rnum, j.* "
-				+ "		from (select board.*, nvl(cnt,0) cnt "
-				+ "			  from board left outer join (select comment_board_num,count(*) cnt "
-				+ "										  from comm"
-				+ "										  group by comment_board_num)"
-				+ "			  on board_num=comment_board_num" + "			  order by BOARD_RE_REF desc,"
-				+ "			  BOARD_RE_SEQ asc) j " + "		where rownum <= ? " + ") " + " where rnum>=? and rnum<=?";
+							  + "		from (select board.*, nvl(cnt,0) cnt "
+							  + "			  from board left outer join (select comment_board_num,count(*) cnt "
+							  + "										  from comm"
+							  + "										  group by comment_board_num)"
+							  + "			  on board_num=comment_board_num" 
+							  + "			  order by BOARD_RE_REF desc,"
+							  + "			  BOARD_RE_SEQ asc) j " 
+							  + "		where rownum <= ? " 
+							  + ") " 
+							  + " where rnum>=? and rnum<=?";
 
 		List<BoardBean> list = new ArrayList<BoardBean>();
 		// 한 페이지당 10개씩 목록인 경우 1페이지, 2페이지, 3페이지, 4페이지 ...

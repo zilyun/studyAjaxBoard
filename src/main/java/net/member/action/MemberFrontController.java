@@ -65,6 +65,15 @@ public class MemberFrontController extends jakarta.servlet.http.HttpServlet {
 			case "/updateProcess.net":
 				action = new MemberUpdateProcessAction();
 				break;
+			case "/memberList.net":
+				action = new MemberSearchAction();
+				break;
+			case "/memberInfo.net":
+				action = new MemberInfoAction();
+				break;
+			case "/memberDelete.net":
+				action = new MemberDeleteAction();
+				break;
 		} // switch (command)
 		
 		forward = action.excute(request, response);

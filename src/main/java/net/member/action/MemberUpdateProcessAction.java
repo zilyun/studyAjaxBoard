@@ -1,6 +1,7 @@
 package net.member.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -19,33 +20,69 @@ public class MemberUpdateProcessAction implements Action {
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		MemberDAO mdao = new MemberDAO();
-		Member m = new Member();
-		ActionForward forward = new ActionForward();
+		String realFolder = "";
 		
+		// webapp 아래에 꼭 폴더 생성하세요.
 		String saveFolder = "memberupload";
 		
 		int filesize = 5 * 1024 * 1024; // 업로드할 파일의 최대 사이즈 입니다. 5MB
 		
 		// 실제 저장 경로를 지정합니다.
 		ServletContext sc = request.getServletContext();
-		String realFolder = sc.getRealPath(saveFolder);
+		realFolder = sc.getRealPath(saveFolder);
 		System.out.println("realFolder= " + realFolder);
 		
 		try {
 			MultipartRequest multi = 
-					new MultipartRequest(request, realFolder, filesize, "UTF-8", 
-										new DefaultFileRenamePolicy());
+					new MultipartRequest(request, realFolder, filesize, "UTF-8", new DefaultFileRenamePolicy());
 			String id = multi.getParameter("id");
 			String name = multi.getParameter("name");
 			int age = Integer.parseInt(multi.getParameter("age"));
 			String gender = multi.getParameter("gender");
+			String email = multi.getParameter("email");
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			String memberfile = multi.getFilesystemName("memberfile");
+			System.out.println("memberfile=" + memberfile);
+			
+			Member m = new Member();
+			m.setAge(age);			m.setEmail(email);			m.setGender(gender);
+			m.setId(id);			m.setName(name); 		  //m.setPassword(pass);
+			m.setMemberfile(memberfile);
+			
+			if(memberfile != null) { // 파일을 선택한 경우
+				m.setMemberfile(memberfile);
+			} 
+			// 기존 파일 그대로 사용하는 경우
+			else {
+				m.setMemberfile(multi.getParameter("check"));
+			}
+			
+			MemberDAO mdao = new MemberDAO();
+			int result = mdao.update(m);
+			
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>");
+			// 삽입이 된 경우
+			if (result == 1) {
+				out.println("alert('수정되었습니다.');");
+				out.println("location.href='BoardList.bo';");
+			} else {
+				out.println("alert('회우너 정보 수정에 실패했습니다.');");
+				out.println("history.back()"); // 비밀번호를 제외한 다른 데이터는 유지 되어 있습니다.
+			}
+			out.println("</script>");
+			out.close();
+			return null;
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			ActionForward forward = new ActionForward();
+			forward.setPath("error/error.jsp");
+			request.setAttribute("message", "프로필 사진 업로드 실패입니다.");
+			forward.setRedirect(false);
+			return forward;
+		} // catch end
 		
-		return null;
-	}
+	} // execute end
 
 }
