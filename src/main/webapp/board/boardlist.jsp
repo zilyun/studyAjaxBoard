@@ -25,7 +25,7 @@ body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:14%}
 body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:17%}
 body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:11%}
 </style>
-<script src="${pageContext.request.contextPath}/js/list.js?v=1.8"></script>
+<script src="${pageContext.request.contextPath}/js/list.js?v=1.12"></script>
 <title>MVC 게시판</title>
 </head>
 <body>
@@ -153,14 +153,3 @@ body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:11%}
 </div> <%-- <div class="container"> end --%>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

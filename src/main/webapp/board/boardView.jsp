@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>MVC 게시판 - view</title>
 <jsp:include page="header.jsp" />
-<script src="${pageContext.request.contextPath}/js/view.js"></script>
+<script src="${pageContext.request.contextPath}/js/view.js?v=1.03"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/view.css" type="text/css">
 </head>
 <body>
@@ -71,8 +71,7 @@
 			</tr>
 		</table>
 		<%-- 게시판 view end --%>
-	</div>
-	
+		
 	<%-- modal 시작 --%>
 	<div class="modal" id="myModal">
 		<div class="modal-dialog">
@@ -100,5 +99,35 @@
 			</div>
 		</div>
 	</div>
+	<%-- modal 끝 --%>
+	
+	<div class="comment-area">
+			<div class="comment-head">
+				<h3 class="comment-count">
+					댓글 <sup id="count"></sup><%--superscript(윗첨자) --%>
+				</h3>
+				<div class="comment-order">
+					<ul class="comment-order-list">
+					</ul>
+				</div>
+			</div><%-- comment-head end--%>
+			<ul class="comment-list">
+				<jsp:include page="Comment.jsp"></jsp:include>
+			</ul>
+			<div class="comment-write">
+				<div class="comment-write-area">
+					<b class="comment-write-area-name" >${id}</b> <span
+						class="comment-write-area-count">0/200</span>
+					<textarea placeholder="댓글을 남겨보세요" rows="1"
+						class="comment-write-area-text" maxLength="200"></textarea>
+					
+				</div>
+				<div class="register-box" >
+					<div class="button btn-cancel">취소</div><%-- 댓글의 취소는 display:none, 등록만 보이도록 합니다. --%>
+					<div class="button btn-register">등록</div>
+				</div>
+			</div><%--comment-write end--%>
+		</div><%-- comment-area end--%>
+	</div><%-- class="container" end --%>
 </body>
 </html>
