@@ -22,42 +22,39 @@ $(function() {
 				
 				if (data.listcount > 0) { // 총 갯수가 0보다 큰 경우
 					$("tbody").remove();
-					let num = data.listcount - (data.page - 1) * data.limit;
-					console.log(data.listcount)
-					console.log(data.page - 1)
-					console.log(data.limit)
+					let num =  data.listcount - (data.page - 1) * data.limit;
 					console.log(num)
 					let output = "<tbody>";
 					$(data.boardlist).each(
 						function(index, item) {
-							output = '<tr><td>' + (num--) + '</td>'
+							output +='<tr><td>' + (num--) + '</td>'
 							const blank_count = item.board_re_lev * 2 + 1;
 							let blank = '&nbsp;';
-							for (let i = 0; i < blank_count; i++) {
+							for (let i=0; i < blank_count; i++) {
 								blank += '&nbsp;&nbsp;';
 							}
-
+							
 							let img = "";
 							if (item.board_re_lev > 0) {
 								img = "<img src='image/line.gif'>";
 							}
-
+							
 							let subject = item.board_subject;
 							if (subject.length >= 20) {
-								subject = subject.substr(0, 20) + "..."; // 0부터 20개의 부분 문자열 추출
+								subject = subject.substr(0,20) + "..."; //0부터 20개의 부분 문자열 추출
 							}
-
 							output += "<td><div>" + blank + img
-							output += ' <a href="BoardDetail.bo?num=' + item.board_num + '">'
-							output += subject.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-								+ '</a>[' + item.cnt + ']</div></td>'
+							output += ' <a href="BoardDetail.bo?num=' + item.board_num + '">';
+							output += subject.replace(/</g,'&lt;').replace(/>/g,'&gt;')
+									  + '</a>[' + item.cnt + ']</div></td>'
 							output += '<td><div>' + item.board_name + '</div></td>'
 							output += '<td><div>' + item.board_date + '</div></td>'
 							output += '<td><div>' + item.board_readcount + '</div></td></tr>'
-
-						})
+						}
+					)
+				
 					output += "</tbody>"
-					$('table').append(output) // table 완성
+					$('table').append(output) //table 완성
 					
 					$(".pagination").empty(); // 페이징 처리 영역 내용 제거
 					output = "";
@@ -67,10 +64,15 @@ $(function() {
 						href = 'href=javascript:go(' + (data.page - 1) + ')'
 					}
 					
-					//output += setPaging(href, digit);
+					output += setPaging(href, digit);
 					
 					for (let i = data.startpage; i <= data.endpage; i++) {
-						
+						digit = i;
+						href = "";
+						if (i != data.page) {
+							href = 'href=javascript:go(' + i + ')';
+						}
+						output += setPaging(href, digit);
 					}
 					
 					digit = '&nbsp;다음&nbsp;';
@@ -79,13 +81,16 @@ $(function() {
 						href = 'href=javascript:go(' + (data.page + 1) + ')';
 					}
 					
-					//output += setPaging(href, digit);
+					output += setPaging(href, digit);
 					
 					$('.pagination').append(output)
 				} // if(data.listcount) > 0 end
+			}, // success end
+			error : function() {
+				console.log('에러')
 			}
-		})
-	}
+		}) // ajax end
+	} // function ajax end
 	
 	$("button").click(function() {
 		location.href = "BoardWrite.bo";

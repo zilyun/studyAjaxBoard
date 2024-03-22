@@ -25,7 +25,7 @@ body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:14%}
 body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:17%}
 body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:11%}
 </style>
-<script src="${pageContext.request.contextPath}/js/list.js?v=1.6"></script>
+<script src="${pageContext.request.contextPath}/js/list.js?v=1.8"></script>
 <title>MVC 게시판</title>
 </head>
 <body>
