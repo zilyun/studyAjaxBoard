@@ -5,10 +5,10 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.board.db.Comment;
-import net.board.db.CommentDAO;
 import net.common.action.Action;
 import net.common.action.ActionForward;
+import net.common.db.Comment;
+import net.common.db.CommentDAO;
 
 public class CommentAddAction implements Action {
 

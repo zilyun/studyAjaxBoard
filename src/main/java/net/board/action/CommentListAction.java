@@ -11,16 +11,16 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.board.db.CommentDAO;
 import net.common.action.Action;
 import net.common.action.ActionForward;
+import net.common.db.CommentDAO;
 
 public class CommentListAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		net.board.db.CommentDAO dao = new CommentDAO();
+		net.common.db.CommentDAO dao = new CommentDAO();
 		
 		// {"comment_board_num" : $("#comment_board_num").val(), state:state}, // state 값이 1 => 등록순, 2=> 최신순
 		int comment_board_num = Integer.parseInt(request.getParameter("comment_board_num"));

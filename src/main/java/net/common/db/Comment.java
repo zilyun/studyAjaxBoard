@@ -1,4 +1,4 @@
-package net.board.db;
+package net.common.db;
 
 public class Comment {
 	private int 	num;

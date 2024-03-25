@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>MVC 게시판 - view</title>
 <jsp:include page="header.jsp" />
-<script src="${pageContext.request.contextPath}/js/view.js?v=1.03"></script>
+<script src="${pageContext.request.contextPath}/js/view.js?v=1.07"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/view.css" type="text/css">
 </head>
 <body>
