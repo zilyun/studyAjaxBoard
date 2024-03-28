@@ -1,4 +1,4 @@
-package net.board.action;
+package net.comment.action;
 
 import java.io.IOException;
 

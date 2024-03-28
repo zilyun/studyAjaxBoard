@@ -7,6 +7,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.comment.action.CommentAddAction;
+import net.comment.action.CommentDeleteAction;
+import net.comment.action.CommentListAction;
+import net.comment.action.CommentReplyAction;
+import net.comment.action.CommentUpdateAction;
 import net.common.action.Action;
 import net.common.action.ActionForward;
 
